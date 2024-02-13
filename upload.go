@@ -76,6 +76,26 @@ type Upload struct {
 	UserID                    string        `gorm:"type:varchar(255); not null; index:idx_user_id_state,priority:1" json:"user_id"`
 }
 
+type PreSignedReq struct {
+	FileName           string     `json:"file_name" binding:"required"`
+	FileSize           uint64     `json:"file_size" binding:"required"`
+	IsEncrypt          *bool      `json:"is_encrypt" binding:"required"`
+	DeleteDate         *time.Time `json:"delete_date"`
+	GroupUID           string     `json:"group_uid"`
+	DownloadLimitCount uint       `json:"download_limit_count"`
+	Password           string     `json:"password"`
+}
+
+type PreSignedResp struct {
+	AWSKey   string `json:"aws_key" binding:"required"`
+	AWSUrl   string `json:"aws_url" binding:"required"`
+	FileName string `json:"file_name" biding:"required"`
+	Key      string `json:"key" binding:"required"`
+	Bucket   string `json:"bucket" binding:"required"`
+	SseKey   string `json:"sseKey"`
+	SseMD5   string `json:"sseMD5"`
+}
+
 type UploadClient struct {
 	S3Minio, S3Wasabi *s3.Client
 	Bucket            string
