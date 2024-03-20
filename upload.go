@@ -247,6 +247,12 @@ type UploadCountHistory struct {
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 }
 
+func ErrFileNotUploaded() error {
+	return &MyError{
+		Err: "file_not_uploaded",
+	}
+}
+
 func ErrFileInfoPasswordNeed() error {
 	return &MyError{
 		Err: "need_password",
