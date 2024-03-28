@@ -61,7 +61,6 @@ type Upload struct {
 	IsBusiness                bool          `gorm:"default:0" json:"is_business"`
 	IsEncrypt                 bool          `gorm:"default:0" json:"is_encrypt"`
 	IsInfected                uint          `gorm:"type:tinyint(1);default:0;comment:0 未処理, 1 パス, 2 ウイルス" json:"is_infected"`
-	IsLarge                   bool          `gorm:"default:0" json:"is_large"`
 	IsPremium                 bool          `gorm:"default:0" json:"is_premium"`
 	IsRedirect                bool          `gorm:"-" json:"is_redirect"`
 	ListID                    uint          `gorm:"-" json:"list_id"` // List.vue の key-field で利用
