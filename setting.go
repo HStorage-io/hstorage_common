@@ -3,7 +3,6 @@ package hstorage_common
 type Setting struct {
 	ID                        int    `gorm:"primaryKey" json:"-"`
 	MaxUploadSize             uint64 `gorm:"comment: maximum upload size" json:"max_upload_size"`
-	FreeLimitUploadSize       uint64 `gorm:"comment: byte" json:"free_limit_upload_size"`
 	FreeUserMonthlyCountLimit uint8  `gorm:"comment: 月間のアップロード数" json:"free_user_monthly_count_limit"`
 	FreeUserCapacityLimit     uint64 `gorm:"comment: アカウント単位での最大保管容量 byte" json:"free_user_capacity_limit"`
 	FreeUserCountLimit        int64  `gorm:"comment: アカウント単位での最大保管ファイル数" json:"free_user_count_limit"`
