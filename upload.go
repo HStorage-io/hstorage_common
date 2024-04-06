@@ -77,7 +77,6 @@ type Upload struct {
 
 type PreSignedReq struct {
 	FileName           string     `json:"file_name" binding:"required"`
-	FileSize           uint64     `json:"file_size" binding:"required"`
 	IsEncrypt          *bool      `json:"is_encrypt" binding:"required"`
 	DeleteDate         *time.Time `json:"delete_date"`
 	GroupUID           string     `json:"group_uid"`
