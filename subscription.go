@@ -13,6 +13,7 @@ const (
 
 type SubscriptionFailed struct {
 	gorm.Model
+	UserID     string   `gorm:"varchar(255);not null"`
 	CustomerID string   `gorm:"varchar(255);not null"`
 	Email      string   `gorm:"varchar(255);not null"`
 	PlanType   PlanType `gorm:"varchar(255);not null"`
