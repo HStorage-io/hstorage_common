@@ -8,6 +8,7 @@ const (
 	PlanTypeFree     PlanType = "free"
 	PlanTypePremium  PlanType = "premium"
 	PlanTypeBusiness PlanType = "business"
+	PlanTypeAPI      PlanType = "api"
 )
 
 type SubscriptionFailed struct {
