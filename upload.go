@@ -3,7 +3,6 @@ package hstorage_common
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"fmt"
 	"log"
 	"net"
@@ -15,13 +14,10 @@ import (
 	awsConfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/aws/aws-sdk-go-v2/service/s3/types"
-	"github.com/aws/smithy-go"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-sdk-go-v2/otelaws"
 )
 
 type FileStatus int
-type FileLocation string
 type RequestMethod string
 type FileType string
 
@@ -29,9 +25,6 @@ const (
 	FileStatusNotUploaded FileStatus = iota
 	FileStatusUploaded
 	FileStatusDeleted
-
-	Wasabi FileLocation = "wasabi"
-	Minio  FileLocation = "minio"
 
 	RequestMethodWeb  RequestMethod = "web"
 	RequestMethodAPI  RequestMethod = "api"
@@ -100,11 +93,11 @@ type PreSignedResp struct {
 }
 
 type UploadClient struct {
-	S3Minio, S3Wasabi *s3.Client
-	Bucket            string
+	S3Minio *s3.Client
+	Bucket  string
 }
 
-func NewUploadClient(bucket, minioAccessKeyID, minioSecretAccessKey, minioEndpoint, wasabiAccessKeyID, wasabiSecretAccessKey, wasabiEndpoint string) *UploadClient {
+func NewUploadClient(bucket, minioAccessKeyID, minioSecretAccessKey, minioEndpoint string) *UploadClient {
 	s3MinioCfg, err := awsConfig.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		log.Fatalf("unable to load SDK config, %v", err)
@@ -128,78 +121,10 @@ func NewUploadClient(bucket, minioAccessKeyID, minioSecretAccessKey, minioEndpoi
 	})
 	otelaws.AppendMiddlewares(&s3MinioCfg.APIOptions)
 
-	s3WasabiCfg, err := awsConfig.LoadDefaultConfig(context.TODO())
-	if err != nil {
-		log.Fatalf("unable to load SDK config, %v", err)
-	}
-	s3Wasabi := s3.NewFromConfig(s3WasabiCfg, func(o *s3.Options) {
-		o.Credentials = credentials.NewStaticCredentialsProvider(wasabiAccessKeyID, wasabiSecretAccessKey, "")
-		o.Region = "ap-northeast-1"
-		o.BaseEndpoint = aws.String(fmt.Sprintf("https://%s", wasabiEndpoint))
-		o.HTTPClient = &http.Client{
-			Transport: &http.Transport{
-				DialContext: (&net.Dialer{
-					Timeout:   3600 * time.Second,
-					KeepAlive: 30 * time.Second,
-				}).DialContext,
-				MaxIdleConns:        32,
-				MaxIdleConnsPerHost: 16,
-				IdleConnTimeout:     60 * time.Second,
-			},
-		}
-		o.UsePathStyle = true
-	})
-	otelaws.AppendMiddlewares(&s3WasabiCfg.APIOptions)
-
 	return &UploadClient{
-		S3Minio:  s3Minio,
-		S3Wasabi: s3Wasabi,
-		Bucket:   bucket,
+		S3Minio: s3Minio,
+		Bucket:  bucket,
 	}
-}
-
-func (c *UploadClient) WhereIsFile(ctx context.Context, upload *Upload) (FileLocation, error) {
-	if upload.IsEncrypt {
-		return Minio, nil
-	}
-
-	resultChan := make(chan FileLocation, 2)
-	errChan := make(chan error, 2)
-
-	checkHeadObject := func(s3client *s3.Client, location FileLocation) {
-		_, err := s3client.HeadObject(ctx, &s3.HeadObjectInput{
-			Bucket: aws.String(c.Bucket),
-			Key:    aws.String(c.GetS3Key(upload)),
-		})
-		if err != nil {
-			errChan <- err
-			return
-		}
-		resultChan <- location
-	}
-
-	go checkHeadObject(c.S3Wasabi, Wasabi)
-	go checkHeadObject(c.S3Minio, Minio)
-
-	for i := 0; i < 2; i++ {
-		select {
-		case location := <-resultChan:
-			return location, nil
-		case err := <-errChan:
-			var apiErr smithy.APIError
-			if errors.As(err, &apiErr) {
-				var noSuchKey *types.NoSuchKey
-				var notFound *types.NotFound
-
-				if errors.As(apiErr, &noSuchKey) || errors.As(apiErr, &notFound) {
-					continue // 片方が見つからない場合、もう一方を待つ
-				}
-			}
-			return "", err
-		}
-	}
-
-	return "", fmt.Errorf("file not found in both Minio and Wasabi for %s", upload.FileName)
 }
 
 func (c *UploadClient) DeleteFiles(ctx context.Context, uploads []Upload) error {
@@ -219,23 +144,7 @@ func (c *UploadClient) DeleteFile(ctx context.Context, upload *Upload) (err erro
 		Key:    aws.String(c.GetS3Key(upload)),
 	}
 
-	location, err := c.WhereIsFile(ctx, upload)
-	if err != nil {
-		return err
-	}
-
-	var localS3Client *s3.Client
-	if location == Wasabi {
-		localS3Client = c.S3Wasabi
-	} else {
-		localS3Client = c.S3Minio
-	}
-
-	if upload.IsEncrypt {
-		_, err = c.S3Minio.DeleteObject(ctx, opts)
-	} else {
-		_, err = localS3Client.DeleteObject(ctx, opts)
-	}
+	_, err = c.S3Minio.DeleteObject(ctx, opts)
 
 	return err
 }
