@@ -7,7 +7,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.18
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.18
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.55.1
-	github.com/aws/smithy-go v1.20.2
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-sdk-go-v2/otelaws v0.52.0
 	gorm.io/datatypes v1.2.0
 	gorm.io/gorm v1.25.10
@@ -31,6 +30,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.20.11 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.24.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.28.12 // indirect
+	github.com/aws/smithy-go v1.20.2 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
