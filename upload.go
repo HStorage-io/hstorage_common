@@ -290,6 +290,8 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 }
 
 func GetVideoThumbnailURL(secret, path string) string {
+	baseURL := "https://video-thumbnail.hstorage.io"
+
 	h := hmac.New(sha256.New, []byte(secret))
 	h.Write([]byte(path))
 	hash := base64.StdEncoding.EncodeToString(h.Sum(nil))
@@ -300,7 +302,7 @@ func GetVideoThumbnailURL(secret, path string) string {
 		hash = hash[:40]
 	}
 
-	return fmt.Sprintf("%s/%s", hash, path)
+	return fmt.Sprintf("%s/%s/%s", baseURL, hash, path)
 }
 
 func ErrFileNameNotProvided() error {
