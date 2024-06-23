@@ -289,7 +289,7 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 	return fmt.Sprintf("%s&url=%s&is_thumb=true&password=%s", baseURL, GetFileURL(fileBaseURL, upload), password)
 }
 
-func GetVideoThumbnailURL(secret, path, fileBaseURL string, upload *Upload) string {
+func GetVideoThumbnailURL(secret, path string) string {
 	h := hmac.New(sha256.New, []byte(secret))
 	h.Write([]byte(path))
 	hash := base64.StdEncoding.EncodeToString(h.Sum(nil))
