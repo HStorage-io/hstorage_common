@@ -1,5 +1,9 @@
 package hstorage_common
 
+type Auth0Roles struct {
+	Roles []string `json:"roles"`
+}
+
 type Auth0FreeTrialCount struct {
 	Premium  int `json:"premium"`
 	Business int `json:"business"`
