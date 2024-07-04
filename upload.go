@@ -77,11 +77,12 @@ type Upload struct {
 }
 
 type PreSignedReq struct {
-	FileName           string     `json:"file_name" binding:"required"`
-	IsEncrypt          *bool      `json:"is_encrypt" binding:"required"`
 	DeleteDate         *time.Time `json:"delete_date"`
-	GroupUID           string     `json:"group_uid"`
 	DownloadLimitCount uint       `json:"download_limit_count"`
+	FileName           string     `json:"file_name" binding:"required"`
+	GroupUID           string     `json:"group_uid"`
+	IsEncrypt          *bool      `json:"is_encrypt" binding:"required"`
+	IsGuest            bool       `json:"is_guest"`
 	Password           string     `json:"password"`
 }
 
