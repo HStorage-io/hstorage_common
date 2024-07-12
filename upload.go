@@ -181,6 +181,18 @@ func ErrFileInfoPasswordInvalid() error {
 	}
 }
 
+func ErrFileInfoHashedKeyNeed() error {
+	return &MyError{
+		Err: "need_hashed_key",
+	}
+}
+
+func ErrFileInfoHashedKeyInvalid() error {
+	return &MyError{
+		Err: "invalid_hashed_key",
+	}
+}
+
 func ErrFileNotFound() error {
 	return &MyError{
 		Err: "not_found",
