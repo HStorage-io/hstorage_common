@@ -2,10 +2,7 @@ package hstorage_common
 
 import (
 	"context"
-	"crypto/hmac"
-	"crypto/sha256"
 	"database/sql"
-	"encoding/base64"
 	"fmt"
 	"log"
 	"net"
@@ -300,22 +297,6 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 	}
 
 	return fmt.Sprintf("%s&url=%s&is_thumb=true&password=%s", baseURL, GetFileURL(fileBaseURL, upload), password)
-}
-
-func GetVideoThumbnailURL(secret, path string) string {
-	baseURL := "https://video-thumbnail.hstorage.io"
-
-	h := hmac.New(sha256.New, []byte(secret))
-	h.Write([]byte(path))
-	hash := base64.StdEncoding.EncodeToString(h.Sum(nil))
-	hash = strings.TrimRight(hash, "=")
-	hash = strings.ReplaceAll(hash, "+", "-")
-	hash = strings.ReplaceAll(hash, "/", "_")
-	if len(hash) > 40 {
-		hash = hash[:40]
-	}
-
-	return fmt.Sprintf("%s/%s/%s", baseURL, hash, path)
 }
 
 func ErrFileNameNotProvided() error {
