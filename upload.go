@@ -293,10 +293,10 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 
 	// ローカルで実行する場合、url が localhost になってしまうので、s-dl.hstorage.io を使う
 	if isLocal {
-		return fmt.Sprintf("%shttps://s-dl.hstorage.io/%s?is_thumb=true&password=%s", baseURL, upload.FileName, password)
+		return fmt.Sprintf("%shttps://s-dl.hstorage.io/%s?password=%s", baseURL, upload.FileName, password)
 	}
 
-	return fmt.Sprintf("%s%s?is_thumb=true&password=%s", baseURL, GetFileURL(fileBaseURL, upload), password)
+	return fmt.Sprintf("%s%s?password=%s", baseURL, GetFileURL(fileBaseURL, upload), password)
 }
 
 func ErrFileNameNotProvided() error {
