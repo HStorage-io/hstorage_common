@@ -289,14 +289,14 @@ func GetDownloadURL(fileBaseURL string, upload *Upload) string {
 }
 
 func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLocal bool) string {
-	baseURL := "https://p.hstorage.io/resize?type=webp&width=200"
+	baseURL := "https://thumbnail.hstorage.io/unsafe/fit-in/200x0/"
 
 	// ローカルで実行する場合、url が localhost になってしまうので、s-dl.hstorage.io を使う
 	if isLocal {
-		return fmt.Sprintf("%s&url=https://s-dl.hstorage.io/%s&is_thumb=true&password=%s", baseURL, upload.FileName, password)
+		return fmt.Sprintf("%shttps://s-dl.hstorage.io/%s?is_thumb=true&password=%s", baseURL, upload.FileName, password)
 	}
 
-	return fmt.Sprintf("%s&url=%s&is_thumb=true&password=%s", baseURL, GetFileURL(fileBaseURL, upload), password)
+	return fmt.Sprintf("%s%s?is_thumb=true&password=%s", baseURL, GetFileURL(fileBaseURL, upload), password)
 }
 
 func ErrFileNameNotProvided() error {
