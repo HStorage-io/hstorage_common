@@ -267,11 +267,11 @@ func (c *UploadClient) GetS3Key(upload *Upload) string {
 	return key
 }
 
-func GetFileURL(fileBaseURL string, upload *Upload) string {
+func GetFileURL(fileBaseURL string, upload *Upload, needPasswordQuery bool) string {
 	fileName := upload.FileName
 	fileURL := fmt.Sprintf("%s/%s", fileBaseURL, fileName)
 
-	if upload.Password != "" {
+	if upload.Password != "" && needPasswordQuery {
 		fileURL = fmt.Sprintf("%s?password=%s", fileURL, upload.Password)
 	}
 
@@ -298,7 +298,8 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 	if isLocal {
 		thumbURL = fmt.Sprintf("%shttps://s-dl.hstorage.io/%s", baseURL, upload.FileName)
 	} else {
-		thumbURL = fmt.Sprintf("%s%s", baseURL, GetFileURL(fileBaseURL, upload))
+		// needPasswordQuery=false: thumbnail の password はエスケープする必要があるため、ここではクエリは不要
+		thumbURL = fmt.Sprintf("%s%s", baseURL, GetFileURL(fileBaseURL, upload, false))
 	}
 
 	if password != "" {
