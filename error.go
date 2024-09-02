@@ -25,7 +25,7 @@ func ErrHealth() error {
 	return &ErrorMsg{
 		Title: "エラーが発生しました",
 		Msg:   "サーバーが正常に動作していません。しばらく時間をおいてから再度お試しください。",
-		Err:   "unknown_error",
+		Err:   "health_check_failed",
 	}
 }
 
