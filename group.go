@@ -34,6 +34,12 @@ func ErrGroupNotFound() error {
 	}
 }
 
+func ErrGroupNotBelongToUser() error {
+	return &MyError{
+		Err: "group not belong to user",
+	}
+}
+
 func ErrGroupNotPublicView() error {
 	return &MyError{
 		Err: "group_not_public_view",
