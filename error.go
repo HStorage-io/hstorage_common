@@ -80,9 +80,10 @@ func (e *ErrorMsg) Error() string {
 
 func (e *ErrorMsg) Is(tgt error) bool {
 	var target *ErrorMsg
-	ok := errors.As(tgt, &target)
-	if !ok {
+	if !errors.As(tgt, &target) {
 		return false
 	}
-	return e.Title == target.Title
+	return e.Title == target.Title &&
+		e.Msg == target.Msg &&
+		e.Err == target.Err
 }
