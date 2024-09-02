@@ -3,6 +3,8 @@ package hstorage_common
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"log"
 )
 
 type ErrorMsg struct {
@@ -68,7 +70,11 @@ func ErrStripeSignatureNotMatched() error {
 }
 
 func (e *ErrorMsg) Error() string {
-	jsonMsg, _ := json.Marshal(e)
+	jsonMsg, err := json.Marshal(e)
+	if err != nil {
+		log.Printf("Error marshaling ErrorMsg: %v", err)
+		return fmt.Sprintf("Internal error: %s", e.Title)
+	}
 	return string(jsonMsg)
 }
 
