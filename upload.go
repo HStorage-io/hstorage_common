@@ -161,42 +161,6 @@ type UploadCountHistory struct {
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 }
 
-func ErrFileNotUploaded() error {
-	return &MyError{
-		Err: "file_not_uploaded",
-	}
-}
-
-func ErrFileInfoPasswordNeed() error {
-	return &MyError{
-		Err: "need_password",
-	}
-}
-
-func ErrFileInfoPasswordInvalid() error {
-	return &MyError{
-		Err: "invalid_password",
-	}
-}
-
-func ErrFileInfoHashedKeyNeed() error {
-	return &MyError{
-		Err: "need_hashed_key",
-	}
-}
-
-func ErrFileInfoHashedKeyInvalid() error {
-	return &MyError{
-		Err: "invalid_hashed_key",
-	}
-}
-
-func ErrFileNotFound() error {
-	return &MyError{
-		Err: "not_found",
-	}
-}
-
 // GetFileType returns file type (eg: image, video) from file name
 // return image, video, document
 func GetFileType(fileName string) FileType {
@@ -309,8 +273,4 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 	return thumbURL
 }
 
-func ErrFileNameNotProvided() error {
-	return &MyError{
-		Err: "file_name not provided",
-	}
-}
+
