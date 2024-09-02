@@ -28,14 +28,14 @@ func ErrGroupNotFound() error {
 	return &ErrorMsg{
 		Title: "グループが見つかりません",
 		Msg:   "グループが見つかりませんでした。",
-		Err:   "group not provided",
+		Err:   "group not found",
 	}
 }
 
 func ErrGroupNotBelongToUser() error {
 	return &ErrorMsg{
-		Title: "グループが見つかりません",
-		Msg:   "グループが見つかりませんでした。",
+		Title: "グループが不適切です",
+		Msg:   "あなたのグループではありません。",
 		Err:   "group not belong to user",
 	}
 }
