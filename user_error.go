@@ -1,6 +1,6 @@
 package hstorage_common
 
-func ErrSubscriptionAlready() error {
+func ErrSubscriptionAlready() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "既にプレミアム・ビジネスプランに加入しています",
 		Msg:   "既にプレミアム・ビジネスプランに加入しています。",
@@ -8,7 +8,7 @@ func ErrSubscriptionAlready() error {
 	}
 }
 
-func ErrSubscriptionTypeNotProvidedInQuery() error {
+func ErrSubscriptionTypeNotProvidedInQuery() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "プランが指定されていません",
 		Msg:   "?type= としてプランを指定してください。",
@@ -16,7 +16,7 @@ func ErrSubscriptionTypeNotProvidedInQuery() error {
 	}
 }
 
-func ErrSubscriptionEmailNotProvidedInQuery() error {
+func ErrSubscriptionEmailNotProvidedInQuery() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "メールアドレスが指定されていません",
 		Msg:   "?email= としてメールアドレスを指定してください。",
@@ -24,7 +24,7 @@ func ErrSubscriptionEmailNotProvidedInQuery() error {
 	}
 }
 
-func ErrSubscriptionNotFound() error {
+func ErrSubscriptionNotFound() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "サブスクリプションが見つかりません",
 		Msg:   "サブスクリプションが見つかりませんでした。今も引き落としがありましたらお手数ですがお問い合わせください。",
@@ -32,7 +32,7 @@ func ErrSubscriptionNotFound() error {
 	}
 }
 
-func ErrUserDuplicated() error {
+func ErrUserDuplicated() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "複数のアカウントを検知しました",
 		Msg:   "フリープランでは複数アカウントで利用することを禁じております。プレミアム・ビジネスプランへのアップグレードをご検討いただけますと幸いです。",
@@ -40,7 +40,7 @@ func ErrUserDuplicated() error {
 	}
 }
 
-func ErrLimitExceededFiles() error {
+func ErrLimitExceededFiles() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "月間アップロード数の制限に達しました",
 		Msg:   "フリープランでは月間にアップロードできるファイル数に制限があります。プレミアム・ビジネスプランへのアップグレードをご検討いただけますと幸いです。",
@@ -48,7 +48,7 @@ func ErrLimitExceededFiles() error {
 	}
 }
 
-func ErrLimitExceededCapacity() error {
+func ErrLimitExceededCapacity() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "容量の制限に達しました",
 		Msg:   "フリープランでは保存できる容量に制限があります。プレミアム・ビジネスプランへのアップグレードをご検討いただけますと幸いです。",
@@ -56,7 +56,7 @@ func ErrLimitExceededCapacity() error {
 	}
 }
 
-func ErrDownloadNotificationNotEnabled() error {
+func ErrDownloadNotificationNotEnabled() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "ダウンロード通知が有効になっていません",
 		Msg:   "ダウンロード通知が有効になっていません。",

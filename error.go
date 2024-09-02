@@ -13,7 +13,7 @@ type ErrorMsg struct {
 	Err   string `json:"error"` // web で利用
 }
 
-func ErrCommon() error {
+func ErrCommon() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "エラーが発生しました",
 		Msg:   "しばらく時間をおいてから再度お試しください。",
@@ -21,7 +21,7 @@ func ErrCommon() error {
 	}
 }
 
-func ErrHealth() error {
+func ErrHealth() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "エラーが発生しました",
 		Msg:   "サーバーが正常に動作していません。しばらく時間をおいてから再度お試しください。",
@@ -29,7 +29,7 @@ func ErrHealth() error {
 	}
 }
 
-func ErrInvalidRequest() error {
+func ErrInvalidRequest() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "リクエストが無効です",
 		Msg:   "リクエスト形式が正しいか確認してください",
@@ -37,7 +37,7 @@ func ErrInvalidRequest() error {
 	}
 }
 
-func ErrInvalidToken() error {
+func ErrInvalidToken() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "トークンが無効です",
 		Msg:   "トークンが無効です。",
@@ -45,7 +45,7 @@ func ErrInvalidToken() error {
 	}
 }
 
-func ErrNotAllowed() error {
+func ErrNotAllowed() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "その操作は許可されておりません",
 		Msg:   "ログインしているユーザーが正しいか確認してください。",
@@ -53,7 +53,7 @@ func ErrNotAllowed() error {
 	}
 }
 
-func ErrEmailFileInvalidEmailFormat() error {
+func ErrEmailFileInvalidEmailFormat() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "メールアドレスの形式が正しくありません",
 		Msg:   "メールアドレスの形式が正しくありません。",
@@ -61,7 +61,7 @@ func ErrEmailFileInvalidEmailFormat() error {
 	}
 }
 
-func ErrStripeSignatureNotMatched() error {
+func ErrStripeSignatureNotMatched() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "Stripe のシグネチャーが一致しません",
 		Msg:   "Stripe のシグネチャーが一致しません。",

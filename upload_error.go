@@ -1,6 +1,6 @@
 package hstorage_common
 
-func ErrFileNameNotProvided() error {
+func ErrFileNameNotProvided() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "file_name が指定されていません",
 		Msg:   "リクエスト内容が正しいか確認してください",
@@ -8,7 +8,7 @@ func ErrFileNameNotProvided() error {
 	}
 }
 
-func ErrFileNotUploaded() error {
+func ErrFileNotUploaded() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "ファイルがアップロードされていません",
 		Msg:   "ファイルがアップロードされていません",
@@ -16,7 +16,7 @@ func ErrFileNotUploaded() error {
 	}
 }
 
-func ErrFileInfoPasswordNeed() error {
+func ErrFileInfoPasswordNeed() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "パスワードが必要です",
 		Msg:   "パスワードが必要です",
@@ -24,7 +24,7 @@ func ErrFileInfoPasswordNeed() error {
 	}
 }
 
-func ErrFileInfoPasswordInvalid() error {
+func ErrFileInfoPasswordInvalid() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "パスワードが無効です",
 		Msg:   "パスワードが無効です",
@@ -32,7 +32,7 @@ func ErrFileInfoPasswordInvalid() error {
 	}
 }
 
-func ErrFileInfoHashedKeyNeed() error {
+func ErrFileInfoHashedKeyNeed() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "ハッシュ化されたキーが必要です",
 		Msg:   "ハッシュ化されたキーが必要です",
@@ -40,7 +40,7 @@ func ErrFileInfoHashedKeyNeed() error {
 	}
 }
 
-func ErrFileInfoHashedKeyInvalid() error {
+func ErrFileInfoHashedKeyInvalid() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "ハッシュ化されたキーが無効です",
 		Msg:   "ハッシュ化されたキーが無効です",
@@ -48,7 +48,7 @@ func ErrFileInfoHashedKeyInvalid() error {
 	}
 }
 
-func ErrFileNotFound() error {
+func ErrFileNotFound() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "ファイルが見つかりません",
 		Msg:   "ファイルが見つかりませんでした。",

@@ -1,6 +1,6 @@
 package hstorage_common
 
-func ErrGroupIDNotProvided() error {
+func ErrGroupIDNotProvided() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "group_id が指定されていません",
 		Msg:   "リクエスト内容が正しいか確認してください",
@@ -8,7 +8,7 @@ func ErrGroupIDNotProvided() error {
 	}
 }
 
-func ErrGroupUIDNotProvided() error {
+func ErrGroupUIDNotProvided() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "group_uid が指定されていません",
 		Msg:   "リクエスト内容が正しいか確認してください",
@@ -16,7 +16,7 @@ func ErrGroupUIDNotProvided() error {
 	}
 }
 
-func ErrGroupTypeNotProvided() error {
+func ErrGroupTypeNotProvided() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "type が指定されていません",
 		Msg:   "リクエスト内容が正しいか確認してください",
@@ -24,7 +24,7 @@ func ErrGroupTypeNotProvided() error {
 	}
 }
 
-func ErrGroupNotFound() error {
+func ErrGroupNotFound() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "グループが見つかりません",
 		Msg:   "グループが見つかりませんでした。",
@@ -32,7 +32,7 @@ func ErrGroupNotFound() error {
 	}
 }
 
-func ErrGroupNotBelongToUser() error {
+func ErrGroupNotBelongToUser() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "グループが不適切です",
 		Msg:   "あなたのグループではありません。",
@@ -40,7 +40,7 @@ func ErrGroupNotBelongToUser() error {
 	}
 }
 
-func ErrDuplicatedGroupName() error {
+func ErrDuplicatedGroupName() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "グループ名が重複しています",
 		Msg:   "別のグループ名を指定してください。",
@@ -48,7 +48,7 @@ func ErrDuplicatedGroupName() error {
 	}
 }
 
-func ErrGroupNotPublicView() error {
+func ErrGroupNotPublicView() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "グループが公開されていません",
 		Msg:   "グループの作成者へグループの設定を変更してもらってください。",
@@ -56,7 +56,7 @@ func ErrGroupNotPublicView() error {
 	}
 }
 
-func ErrGroupNotPublicUpload() error {
+func ErrGroupNotPublicUpload() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "グループへのアップロードが許可されていません",
 		Msg:   "グループの作成者へグループの設定を変更してもらってください。",
