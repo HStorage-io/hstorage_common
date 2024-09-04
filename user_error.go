@@ -3,7 +3,7 @@ package hstorage_common
 func ErrSubscriptionAlready() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "既にプレミアム・ビジネスプランに加入しています",
-		Msg:   "既にプレミアム・ビジネスプランに加入しています。",
+		Msg:   "既にプレミアム・ビジネスプランに加入しています。再ログインを行い、最新の情報を反映させてください。",
 		Err:   "subscription_already",
 	}
 }
