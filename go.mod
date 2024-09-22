@@ -1,13 +1,17 @@
 module github.com/hstorage-io/hstorage_common
 
-go 1.22
+go 1.22.0
+
+toolchain go1.23.0
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.30.3
 	github.com/aws/aws-sdk-go-v2/config v1.27.27
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.27
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.58.2
+	github.com/oklog/ulid v1.3.1
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-sdk-go-v2/otelaws v0.53.0
+	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
 	gorm.io/datatypes v1.2.1
 	gorm.io/gorm v1.25.11
 )

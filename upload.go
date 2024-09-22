@@ -15,9 +15,7 @@ import (
 	awsConfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/oklog/ulid"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-sdk-go-v2/otelaws"
-	"golang.org/x/exp/rand"
 )
 
 type FileStatus int
@@ -274,11 +272,4 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 	}
 
 	return thumbURL
-}
-
-func GenULID() (string, error) {
-	entropy := ulid.Monotonic(rand.New(rand.NewSource(time.Now().UnixNano())), 0)
-	id, err := ulid.New(ulid.Timestamp(time.Now()), entropy)
-
-	return id.String(), err
 }
