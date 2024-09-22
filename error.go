@@ -45,6 +45,14 @@ func ErrInvalidToken() *ErrorMsg {
 	}
 }
 
+func ErrInvalidWorkerKey() *ErrorMsg {
+	return &ErrorMsg{
+		Title: "キーが無効です",
+		Msg:   "Worker に指定しているキーが無効です。",
+		Err:   "invalid_worker_key",
+	}
+}
+
 func ErrNotAllowed() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "その操作は許可されておりません",
