@@ -50,7 +50,7 @@ type Upload struct {
 	DownloadLimitCount        uint          `gorm:"default:null" json:"download_limit_count"`
 	DownloadNotificationCount uint          `gorm:"default:0" json:"notification_count"` // 通知回数、最大値を決めるために利用
 	DownloadUrl               string        `gorm:"-" json:"download_url"`
-	ExternalID                string        `gorm:"type:char(26);not null; index:idx_external_id" json:"external_id"`
+	ExternalID                string        `gorm:"type:char(26);not null; index:idx_external_id,priority:1" json:"external_id"`
 	FileName                  string        `gorm:"type:varchar(255); not null" json:"file_name"`
 	FileSize                  uint64        `gorm:"not null; comment:byte" json:"file_size"`
 	FileType                  FileType      `gorm:"-" json:"file_type"` // e.x video, photo
@@ -66,7 +66,7 @@ type Upload struct {
 	ListID                    uint          `gorm:"-" json:"list_id"` // List.vue の key-field で利用
 	OriginalFileName          string        `gorm:"type:varchar(255); not null" json:"original_file_name"`
 	Password                  string        `gorm:"type:varchar(255);default:null" json:"password"`
-	State                     FileStatus    `gorm:"type:tinyint(1);default:0; index:idx_group_id_state,priority:2; index:idx_user_id_state,priority:2" json:"state"`
+	State                     FileStatus    `gorm:"type:tinyint(1);default:0; index:idx_group_id_state,priority:2; index:idx_user_id_state,priority:2; index:idx_external_id,priority:2" json:"state"`
 	ThumbURL                  string        `gorm:"-" json:"thumb_url"`
 	UpdatedAt                 time.Time     `json:"updated_at"`
 	UpdatedAtFormatted        string        `gorm:"-" json:"updated_at_formatted"`
