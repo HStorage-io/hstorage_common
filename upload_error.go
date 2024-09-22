@@ -1,10 +1,10 @@
 package hstorage_common
 
-func ErrFileNameNotProvided() *ErrorMsg {
+func ErrExternalIDNotProvided() *ErrorMsg {
 	return &ErrorMsg{
-		Title: "file_name が指定されていません",
+		Title: "external_id が指定されていません",
 		Msg:   "リクエスト内容が正しいか確認してください",
-		Err:   "file_name not provided",
+		Err:   "external_id not provided",
 	}
 }
 
