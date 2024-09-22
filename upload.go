@@ -50,7 +50,7 @@ type Upload struct {
 	DownloadLimitCount        uint          `gorm:"default:null" json:"download_limit_count"`
 	DownloadNotificationCount uint          `gorm:"default:0" json:"notification_count"` // 通知回数、最大値を決めるために利用
 	DownloadUrl               string        `gorm:"-" json:"download_url"`
-	ExternalID                string        `gorm:"type:char(26);not null;uniqueIndex" json:"external_id"`
+	ExternalID                string        `gorm:"type:char(26);not null; index:idx_external_id" json:"external_id"`
 	FileName                  string        `gorm:"type:varchar(255); not null" json:"file_name"`
 	FileSize                  uint64        `gorm:"not null; comment:byte" json:"file_size"`
 	FileType                  FileType      `gorm:"-" json:"file_type"` // e.x video, photo

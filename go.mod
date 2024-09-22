@@ -9,9 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.27
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.27
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.58.2
-	github.com/oklog/ulid v1.3.1
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-sdk-go-v2/otelaws v0.53.0
-	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
 	gorm.io/datatypes v1.2.1
 	gorm.io/gorm v1.25.11
 )
@@ -44,6 +42,7 @@ require (
 	go.opentelemetry.io/otel v1.28.0 // indirect
 	go.opentelemetry.io/otel/metric v1.28.0 // indirect
 	go.opentelemetry.io/otel/trace v1.28.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 	gorm.io/driver/mysql v1.5.7 // indirect
 )
