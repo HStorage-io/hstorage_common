@@ -86,13 +86,14 @@ type PreSignedReq struct {
 }
 
 type PreSignedResp struct {
-	AWSKey   string `json:"aws_key" binding:"required"`
-	AWSUrl   string `json:"aws_url" binding:"required"`
-	FileName string `json:"file_name" biding:"required"`
-	Key      string `json:"key" binding:"required"`
-	Bucket   string `json:"bucket" binding:"required"`
-	SseKey   string `json:"sseKey"`
-	SseMD5   string `json:"sseMD5"`
+	AWSKey     string `json:"aws_key" binding:"required"`
+	AWSUrl     string `json:"aws_url" binding:"required"`
+	Bucket     string `json:"bucket" binding:"required"`
+	ExternalID string `json:"external_id" binding:"required"`
+	FileName   string `json:"file_name" biding:"required"`
+	Key        string `json:"key" binding:"required"`
+	SseKey     string `json:"sseKey"`
+	SseMD5     string `json:"sseMD5"`
 }
 
 type UploadClient struct {
