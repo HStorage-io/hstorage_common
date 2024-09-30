@@ -106,6 +106,8 @@ type PreSignedRespV1 struct {
 	SseKey       string `json:"sseKey"`
 	SseMD5       string `json:"sseMD5"`
 	PreSignedURL string `json:"presigned_url" binding:"required"`
+	ShareURL     string `json:"share_url" binding:"required"`
+	DirectURL    string `json:"direct_url" binding:"required"`
 }
 
 type UploadClient struct {
