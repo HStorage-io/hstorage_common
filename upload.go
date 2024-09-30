@@ -97,12 +97,12 @@ type PreSignedResp struct {
 }
 
 type PreSignedRespV1 struct {
-	AWSKey       string `json:"aws_key" binding:"required"`
-	AWSUrl       string `json:"aws_url" binding:"required"`
-	Bucket       string `json:"bucket" binding:"required"`
-	ExternalID   string `json:"external_id" binding:"required"`
-	FileName     string `json:"file_name" biding:"required"`
-	Key          string `json:"key" binding:"required"`
+	//AWSKey       string `json:"aws_key" binding:"required"`
+	//AWSUrl       string `json:"aws_url" binding:"required"`
+	//Bucket       string `json:"bucket" binding:"required"`
+	ExternalID string `json:"external_id" binding:"required"`
+	FileName   string `json:"file_name" biding:"required"`
+	//Key          string `json:"key" binding:"required"`
 	SseKey       string `json:"sseKey"`
 	SseMD5       string `json:"sseMD5"`
 	PreSignedURL string `json:"presigned_url" binding:"required"`
