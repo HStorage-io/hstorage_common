@@ -23,8 +23,7 @@ type RequestMethod string
 type FileType string
 
 const (
-	FileStatusNotUploaded FileStatus = iota
-	FileStatusUploaded
+	FileStatusUploaded FileStatus = iota + 1
 	FileStatusDeleted
 
 	RequestMethodWeb  RequestMethod = "web"
