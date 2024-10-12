@@ -40,7 +40,7 @@ func ErrInvalidRequest() *ErrorMsg {
 func ErrInvalidToken() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "トークンが無効です",
-		Msg:   "トークンが無効です。",
+		Msg:   "ログアウトし、再度ログインしてください。",
 		Err:   "invalid_token",
 	}
 }
