@@ -21,6 +21,14 @@ func ErrCommon() *ErrorMsg {
 	}
 }
 
+func ErrUnsupportedRequestMethod() *ErrorMsg {
+	return &ErrorMsg{
+		Title: "リクエスト方法がサポートされていません",
+		Msg:   "リクエスト方法がサポートされていません。",
+		Err:   "unsupported_request_method",
+	}
+}
+
 func ErrHealth() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "エラーが発生しました",
