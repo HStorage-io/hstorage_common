@@ -8,6 +8,7 @@ const (
 	PlanTypeFree     PlanType = "free"
 	PlanTypePremium  PlanType = "premium"
 	PlanTypeBusiness PlanType = "business"
+	PlanTypeOnetime  PlanType = "onetime"
 	PlanTypeAPI      PlanType = "api"
 )
 
