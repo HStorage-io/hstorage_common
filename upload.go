@@ -16,6 +16,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-sdk-go-v2/otelaws"
+	"gorm.io/gorm"
 )
 
 type FileStatus int
@@ -42,36 +43,37 @@ const (
 )
 
 type Upload struct {
-	Count                     uint          `gorm:"default:0" json:"count"`
-	CreatedAt                 time.Time     `json:"created_at"`
-	CreatedAtFormatted        string        `gorm:"-" json:"created_at_formatted"`
-	DeleteDate                sql.NullTime  `gorm:"default:null" json:"delete_date"`
-	DownloadLimitCount        uint          `gorm:"default:null" json:"download_limit_count"`
-	DownloadNotificationCount uint          `gorm:"default:0" json:"notification_count"` // 通知回数、最大値を決めるために利用
-	DownloadUrl               string        `gorm:"-" json:"download_url"`
-	ExternalID                string        `gorm:"type:char(26);not null; index:idx_external_id,priority:1" json:"external_id"`
-	FileName                  string        `gorm:"type:varchar(255); not null" json:"file_name"`
-	FileSize                  uint64        `gorm:"not null; index:idx_user_id_state_file_size,priority:3; comment:byte" json:"file_size"`
-	FileType                  FileType      `gorm:"-" json:"file_type"` // e.x video, photo
-	Group                     []Group       `gorm:"-" json:"group"`     // List.vue の b-taginput でのみ利用する
-	GroupID                   uint          `gorm:"not null; default:0; index:idx_group_id_state,priority:1" json:"group_id"`
-	Hash                      string        `gorm:"-" json:"hash"`
-	ID                        uint          `gorm:"primaryKey" json:"id"`
-	IsBusiness                bool          `gorm:"default:0" json:"is_business"`
-	IsEncrypt                 bool          `gorm:"default:0" json:"is_encrypt"`
-	IsInfected                uint          `gorm:"type:tinyint(1);default:0;comment:0 未処理, 1 パス, 2 ウイルス" json:"is_infected"`
-	IsPremium                 bool          `gorm:"default:0" json:"is_premium"`
-	IsRedirect                bool          `gorm:"-" json:"is_redirect"`
-	ListID                    uint          `gorm:"-" json:"list_id"` // List.vue の key-field で利用
-	OriginalFileName          string        `gorm:"type:varchar(255); not null" json:"original_file_name"`
-	Password                  string        `gorm:"type:varchar(255);default:null" json:"password"`
-	State                     FileStatus    `gorm:"type:tinyint(1);default:1; index:idx_group_id_state,priority:2; index:idx_user_id_state,priority:2; index:idx_external_id,priority:2; index:idx_user_id_state_file_size,priority:2" json:"state"`
-	ThumbURL                  string        `gorm:"-" json:"thumb_url"`
-	UpdatedAt                 time.Time     `json:"updated_at"`
-	UpdatedAtFormatted        string        `gorm:"-" json:"updated_at_formatted"`
-	UploadedBy                RequestMethod `gorm:"type:varchar(100);not null;default:web;size:10" json:"uploaded_by"`
-	Url                       string        `gorm:"-" json:"url"`
-	UserID                    string        `gorm:"type:varchar(255); not null; index:idx_user_id_state,priority:1; index:idx_user_id_state_file_size,priority:1" json:"user_id"`
+	Count                     uint           `gorm:"default:0" json:"count"`
+	CreatedAt                 time.Time      `json:"created_at"`
+	CreatedAtFormatted        string         `gorm:"-" json:"created_at_formatted"`
+	DeleteDate                sql.NullTime   `gorm:"default:null" json:"delete_date"`
+	DeletedAt                 gorm.DeletedAt `gorm:"index"`
+	DownloadLimitCount        uint           `gorm:"default:null" json:"download_limit_count"`
+	DownloadNotificationCount uint           `gorm:"default:0" json:"notification_count"` // 通知回数、最大値を決めるために利用
+	DownloadUrl               string         `gorm:"-" json:"download_url"`
+	ExternalID                string         `gorm:"type:char(26);not null; index:idx_external_id,priority:1" json:"external_id"`
+	FileName                  string         `gorm:"type:varchar(255); not null" json:"file_name"`
+	FileSize                  uint64         `gorm:"not null; index:idx_user_id_state_file_size,priority:3; comment:byte" json:"file_size"`
+	FileType                  FileType       `gorm:"-" json:"file_type"` // e.x video, photo
+	Group                     []Group        `gorm:"-" json:"group"`     // List.vue の b-taginput でのみ利用する
+	GroupID                   uint           `gorm:"not null; default:0; index:idx_group_id_state,priority:1" json:"group_id"`
+	Hash                      string         `gorm:"-" json:"hash"`
+	ID                        uint           `gorm:"primaryKey" json:"id"`
+	IsBusiness                bool           `gorm:"default:0" json:"is_business"`
+	IsEncrypt                 bool           `gorm:"default:0" json:"is_encrypt"`
+	IsInfected                uint           `gorm:"type:tinyint(1);default:0;comment:0 未処理, 1 パス, 2 ウイルス" json:"is_infected"`
+	IsPremium                 bool           `gorm:"default:0" json:"is_premium"`
+	IsRedirect                bool           `gorm:"-" json:"is_redirect"`
+	ListID                    uint           `gorm:"-" json:"list_id"` // List.vue の key-field で利用
+	OriginalFileName          string         `gorm:"type:varchar(255); not null" json:"original_file_name"`
+	Password                  string         `gorm:"type:varchar(255);default:null" json:"password"`
+	State                     FileStatus     `gorm:"type:tinyint(1);default:1; index:idx_group_id_state,priority:2; index:idx_user_id_state,priority:2; index:idx_external_id,priority:2; index:idx_user_id_state_file_size,priority:2" json:"state"`
+	ThumbURL                  string         `gorm:"-" json:"thumb_url"`
+	UpdatedAt                 time.Time      `json:"updated_at"`
+	UpdatedAtFormatted        string         `gorm:"-" json:"updated_at_formatted"`
+	UploadedBy                RequestMethod  `gorm:"type:varchar(100);not null;default:web;size:10" json:"uploaded_by"`
+	Url                       string         `gorm:"-" json:"url"`
+	UserID                    string         `gorm:"type:varchar(255); not null; index:idx_user_id_state,priority:1; index:idx_user_id_state_file_size,priority:1" json:"user_id"`
 }
 
 type PreSignedReq struct {
