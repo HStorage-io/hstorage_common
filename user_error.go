@@ -16,6 +16,14 @@ func ErrSubscriptionTypeNotProvidedInQuery() *ErrorMsg {
 	}
 }
 
+func ErrSubscriptionPriceIDNotProvidedInQuery() *ErrorMsg {
+	return &ErrorMsg{
+		Title: "プランが指定されていません",
+		Msg:   "?price_id= としてプランを指定してください。",
+		Err:   "subscription_price_id_not_provided_in_query",
+	}
+}
+
 func ErrSubscriptionEmailNotProvidedInQuery() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "メールアドレスが指定されていません",
