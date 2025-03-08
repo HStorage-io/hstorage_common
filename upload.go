@@ -15,6 +15,7 @@ import (
 	awsConfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/cloudflare/cloudflare-go"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-sdk-go-v2/otelaws"
 	"gorm.io/gorm"
 )
@@ -112,11 +113,18 @@ type PreSignedRespV1 struct {
 }
 
 type UploadClient struct {
-	S3Minio *s3.Client
-	Bucket  string
+	S3Minio     *s3.Client
+	Bucket      string
+	FileBaseURL string
+	CF          CF
 }
 
-func NewUploadClient(bucket, minioAccessKeyID, minioSecretAccessKey, minioEndpoint string) *UploadClient {
+type CF struct {
+	API *cloudflare.API
+	ID  string
+}
+
+func NewUploadClient(bucket, minioAccessKeyID, minioSecretAccessKey, minioEndpoint, fileBaseURL, cfID, cfKey, cfEmail string) *UploadClient {
 	s3MinioCfg, err := awsConfig.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		log.Fatalf("unable to load SDK config, %v", err)
@@ -140,15 +148,25 @@ func NewUploadClient(bucket, minioAccessKeyID, minioSecretAccessKey, minioEndpoi
 	})
 	otelaws.AppendMiddlewares(&s3MinioCfg.APIOptions)
 
+	cf, err := cloudflare.New(cfKey, cfEmail)
+	if err != nil {
+		log.Fatalf("unable to create cloudflare client, %v", err)
+	}
+
 	return &UploadClient{
-		S3Minio: s3Minio,
-		Bucket:  bucket,
+		S3Minio:     s3Minio,
+		Bucket:      bucket,
+		FileBaseURL: fileBaseURL,
+		CF: CF{
+			API: cf,
+			ID:  cfID,
+		},
 	}
 }
 
-func (c *UploadClient) DeleteFiles(ctx context.Context, uploads []Upload) error {
+func (c *UploadClient) DeleteFiles(ctx context.Context, db *gorm.DB, uploads []Upload) error {
 	for i := range uploads {
-		err := c.DeleteFile(ctx, &uploads[i])
+		err := c.DeleteFile(ctx, db, &uploads[i])
 		if err != nil {
 			return err
 		}
@@ -157,15 +175,45 @@ func (c *UploadClient) DeleteFiles(ctx context.Context, uploads []Upload) error 
 	return nil
 }
 
-func (c *UploadClient) DeleteFile(ctx context.Context, upload *Upload) (err error) {
+func (c *UploadClient) DeleteFile(ctx context.Context, db *gorm.DB, upload *Upload) (err error) {
 	opts := &s3.DeleteObjectInput{
 		Bucket: aws.String(c.Bucket),
 		Key:    aws.String(c.GetS3Key(upload)),
 	}
 
 	_, err = c.S3Minio.DeleteObject(ctx, opts)
+	if err != nil {
+		return err
+	}
+
+	err = c.deleteCacheFromCF(ctx, upload)
+	if err != nil {
+		return err
+	}
+
+	err = c.deleteFromDB(ctx, db, upload)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Cloudflare のキャッシュを削除
+func (c *UploadClient) deleteCacheFromCF(ctx context.Context, upload *Upload) error {
+	fileURL := GetFileURL(c.FileBaseURL, upload, true)
+
+	pcr := cloudflare.PurgeCacheRequest{
+		Files: []string{fileURL},
+	}
+
+	_, err := c.CF.API.PurgeCache(ctx, c.CF.ID, pcr)
 
 	return err
+}
+
+func (c *UploadClient) deleteFromDB(ctx context.Context, db *gorm.DB, upload *Upload) error {
+	return db.WithContext(ctx).Delete(upload).Error
 }
 
 /*
@@ -288,9 +336,4 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 	}
 
 	return thumbURL
-}
-
-// 論理削除
-func DeleteRecord(db *gorm.DB, upload *Upload) error {
-	return db.Delete(upload).Error
 }
