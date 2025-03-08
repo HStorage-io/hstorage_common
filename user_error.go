@@ -24,6 +24,13 @@ func ErrSubscriptionPriceIDNotProvidedInQuery() *ErrorMsg {
 	}
 }
 
+func ErrPriceIDNotMatched() *ErrorMsg {
+	return &ErrorMsg{
+		Title: "不明なエラーが発生しました",
+		Msg:   "不明なエラーが発生しました。",
+		Err:   "price_id_not_matched",
+	}
+}
 func ErrSubscriptionEmailNotProvidedInQuery() *ErrorMsg {
 	return &ErrorMsg{
 		Title: "メールアドレスが指定されていません",
