@@ -289,3 +289,8 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 
 	return thumbURL
 }
+
+// 論理削除
+func DeleteRecord(db *gorm.DB, upload *Upload) error {
+	return db.Delete(upload).Error
+}
