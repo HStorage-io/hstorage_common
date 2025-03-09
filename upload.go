@@ -20,14 +20,10 @@ import (
 	"gorm.io/gorm"
 )
 
-type FileStatus int
 type RequestMethod string
 type FileType string
 
 const (
-	FileStatusUploaded FileStatus = iota + 1
-	FileStatusDeleted
-
 	RequestMethodWeb  RequestMethod = "web"
 	RequestMethodAPI  RequestMethod = "api"
 	RequestMethodSFTP RequestMethod = "sftp"
@@ -68,7 +64,6 @@ type Upload struct {
 	ListID                    uint           `gorm:"-" json:"list_id"` // List.vue の key-field で利用
 	OriginalFileName          string         `gorm:"type:varchar(255); not null" json:"original_file_name"`
 	Password                  string         `gorm:"type:varchar(255);default:null" json:"password"`
-	State                     FileStatus     `gorm:"type:tinyint(1);default:1; index:idx_group_id_state,priority:2; index:idx_user_id_state,priority:2; index:idx_external_id,priority:2; index:idx_user_id_state_file_size,priority:2" json:"state"`
 	ThumbURL                  string         `gorm:"-" json:"thumb_url"`
 	UpdatedAt                 time.Time      `json:"updated_at"`
 	UpdatedAtFormatted        string         `gorm:"-" json:"updated_at_formatted"`
