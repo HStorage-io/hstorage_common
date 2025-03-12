@@ -318,13 +318,8 @@ func GetThumbnailURL(fileBaseURL string, upload *Upload, password string, isLoca
 
 	baseURL := "https://thumbnail.hstorage.io/unsafe/fit-in/200x0/"
 
-	// ローカルで実行する場合、url が localhost になってしまうので、s-dl.hstorage.io を使う
-	if isLocal {
-		thumbURL = fmt.Sprintf("%shttps://s-dl.hstorage.io/%s", baseURL, upload.FileName)
-	} else {
-		// needPasswordQuery=false: thumbnail の password はエスケープする必要があるため、ここではクエリは不要
-		thumbURL = fmt.Sprintf("%s%s", baseURL, GetFileURL(fileBaseURL, upload, false))
-	}
+	// needPasswordQuery=false: thumbnail の password はエスケープする必要があるため、ここではクエリは不要
+	thumbURL = fmt.Sprintf("%s%s", baseURL, GetFileURL(fileBaseURL, upload, false))
 
 	if password != "" {
 		thumbURL = fmt.Sprintf("%s%s", thumbURL, url.QueryEscape(fmt.Sprintf("?password=%s", password)))
